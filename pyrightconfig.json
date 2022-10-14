@@ -1,0 +1,24 @@
+{
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__"
+  ],
+
+  "defineConstant": {
+    "DEBUG": true
+  },
+
+  "venvPath": "./venv",
+  "venv": "venv",
+
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "typeCheckingMode": "off",
+
+  "pythonVersion": "3.9",
+
+  "executionEnvironments": [
+    "root": "./",
+    "venv": "./venv/"
+  ]
+}
