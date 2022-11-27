@@ -1,11 +1,19 @@
 """
 Models of database
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
+)
+from django.core.validators import MaxValueValidator
+
+TYPE_CHOICES = (
+    ('maintenance', 'Maintenance'),
+    ('repair', 'Repair'),
+    ('misc', 'Misc'),
 )
 
 
@@ -40,3 +48,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class MaintenanceEntry(models.Model):
+    """Maintenance entry model."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    title = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
+    kms = models.PositiveIntegerField(validators=[MaxValueValidator(999999)])
+    costs = models.DecimalField(max_digits=8, decimal_places=2, blank=True)
+
+    def __str__(self):
+        return self.title

@@ -42,3 +42,4 @@ class UserAdmin(BaseUserAdmin):
 
 # to display the custom admin we have to pass the second argument UserAdmin
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.MaintenanceEntry)

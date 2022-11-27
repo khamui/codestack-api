@@ -1,8 +1,12 @@
 """
 Test models
 """
+from decimal import Decimal
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
+from core import models
 
 class TestModels(TestCase):
     """Test models."""
@@ -41,3 +45,23 @@ class TestModels(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_maintenance_entry(self):
+        """Testing create a maintenance entry."""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpass123',
+        )
+
+        maintenance_entry = models.MaintenanceEntry.objects.create(
+            user=user,
+            title='Delivery Inspection',
+            type='Maintenance',
+            # tasks=['oil change', 'filter replacement', 'cleaning'],
+            kms=34897,
+            costs=Decimal('122.75')
+        )
+
+        self.assertEqual(str(maintenance_entry), maintenance_entry.title)
+
+
